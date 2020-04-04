@@ -21,6 +21,22 @@ class DecCalculator extends Calculator {
     // a wynik dzielenia tej sumy przez 10 (zaokrąglony do dołu - Math.floor) będzie przenoszoną wartością.
     // Pierwzsą cyfrą wyniku będzie ostatnia przenoszona wartość.
     // Zwróć tak przygotowany wynik.
+    let result = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    for (let i = numberX.length - 1; i >= 0; i--) {
+      let carryBit = numberX[i] + numberY[i] + result[i];
+      if (carryBit % 2) {
+        result[i] = carryBit;
+        result[i - 1] = 1;
+      } else if (carryBit === 3) {
+        result[i] = 1;
+        result[i - 1] = 1;
+      } else {
+        result[i] = carryBit;
+      }
+    }
+    return result;
+    
+
   }
 
   changeNumber(root) {
@@ -42,15 +58,17 @@ class DecCalculator extends Calculator {
     // Wywołaj oryginalną (nadpisywaną) implementację metody initEvents.
     // Z elementów kalkulatora wybierz ten ze znaczkiem "+". Przypisz jemu obsługę zdarzenia polegającego
     // na jego kliknięciu.
-    // Po jego kliknięciu powinny zostać wywołane metody kalkulatora - aktualizująca wartości liczb
-    // przypisanych do właściwości kalkulatora oraz aktualizacja wyliczonego wyniku.
+    // Po jego kliknięciu powinny zostać wywołane metody kalkulatora - aktualizująca wartości liczb przypisanych do właściwości kalkulatora oraz aktualizacja wyliczonego wyniku.
+      super.initEvents();
 
-    this.$calculatorDOMElement.addEventListener("click", (event) => {
-      if (event.target.parentElement.classList.contains("display-number")) {
-        const parentLabel = event.target.parentElement;
-        this.changeNumber(parentLabel);
-      }
-    });
+
+      this.$calculatorDOMElement.addEventListener("click", (event) => {
+        if (event.target.parentElement.classList.contains("operator-bar")) {
+          this.checkNumber();
+          this.updateResult();
+        }
+      });
+
   }
 }
 
