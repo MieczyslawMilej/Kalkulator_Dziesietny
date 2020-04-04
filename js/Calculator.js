@@ -57,6 +57,7 @@ class Calculator {
 
     console.log(this.firstNumberArray, this.secondNumberArray);
     this.resultNumberArray = this.add(this.firstNumberArray, this.secondNumberArray);
+    console.log(this.resultNumberArray);
   }
 
   /* Set event click on number

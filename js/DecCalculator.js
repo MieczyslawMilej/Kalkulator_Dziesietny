@@ -22,18 +22,29 @@ class DecCalculator extends Calculator {
     // Pierwzsą cyfrą wyniku będzie ostatnia przenoszona wartość.
     // Zwróć tak przygotowany wynik.
     let result = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    let carry = 0;
     for (let i = numberX.length - 1; i >= 0; i--) {
-      let carryBit = numberX[i] + numberY[i] + result[i];
-      if (carryBit % 10) {
-        result[i] = Math.floor(carryBit);
-        result[i - 1] = 1;
-      } else {
-        result[i] = carryBit;
+      if ((numberX + numberY) % 10 > 0) {
+        carry = Math.floor(numberX[i] + numberY[i] + result[i]);
+
+      }else {
+        carry = Math.floor((numberX[i] + numberY[i]));
       }
+
+      if (carry > 0) {
+        result[i] = carry;
+      }
+      result[i] = (numberX[i] + numberY[i]);
+      console.log(result);
+
+      // if (carryBit % 10) {
+      //   result[i] = carryBit / 10;
+      //   result[i - 1] = 1;
+      // } else {
+      //   result[i] = carryBit;
+      // }
     }
     return result;
-
-
   }
 
   changeNumber(root) {
@@ -50,7 +61,12 @@ class DecCalculator extends Calculator {
     // Z tablicy resultNumberArray przepisz cyfry do odpowiednich elementów dokumentu (kalkulatora).
     // Przypomnienie - odwołanie do elementu zawierającego wszystkie elementy kalkulatora: this.$calculatorDOMElement
 
-    
+    let root = this.$calculatorDOMElement;
+    let $resultNumber = root.querySelectorAll(".result-bit > span");
+    for (let i = $resultNumber.length - 1; i >= 0; i--) {
+      // debugger;
+      $resultNumber[i].innerText = this.resultNumberArray[i];
+    }
   }
 
   initEvents() {
@@ -58,40 +74,15 @@ class DecCalculator extends Calculator {
     // Z elementów kalkulatora wybierz ten ze znaczkiem "+". Przypisz jemu obsługę zdarzenia polegającego
     // na jego kliknięciu.
     // Po jego kliknięciu powinny zostać wywołane metody kalkulatora - aktualizująca wartości liczb przypisanych do właściwości kalkulatora oraz aktualizacja wyliczonego wyniku.
-      super.initEvents();
+    super.initEvents();
 
-
-      this.$calculatorDOMElement.addEventListener("click", (event) => {
-        if (event.target.parentElement.classList.contains("operator-bar")) {
-          this.checkNumber();
-          this.updateResult();
-        }
-      });
-
+    this.$calculatorDOMElement.addEventListener("click", event => {
+      if (event.target.parentElement.classList.contains("operator-bar")) {
+        this.checkNumber();
+        this.updateResult();
+      }
+    });
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 export default DecCalculator;
