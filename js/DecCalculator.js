@@ -24,18 +24,15 @@ class DecCalculator extends Calculator {
     let result = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     for (let i = numberX.length - 1; i >= 0; i--) {
       let carryBit = numberX[i] + numberY[i] + result[i];
-      if (carryBit % 2) {
-        result[i] = carryBit;
-        result[i - 1] = 1;
-      } else if (carryBit === 3) {
-        result[i] = 1;
+      if (carryBit % 10) {
+        result[i] = Math.floor(carryBit);
         result[i - 1] = 1;
       } else {
         result[i] = carryBit;
       }
     }
     return result;
-    
+
 
   }
 
@@ -52,6 +49,8 @@ class DecCalculator extends Calculator {
   updateResult() {
     // Z tablicy resultNumberArray przepisz cyfry do odpowiednich elementów dokumentu (kalkulatora).
     // Przypomnienie - odwołanie do elementu zawierającego wszystkie elementy kalkulatora: this.$calculatorDOMElement
+
+    
   }
 
   initEvents() {
