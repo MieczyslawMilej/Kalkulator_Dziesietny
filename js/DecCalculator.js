@@ -22,20 +22,21 @@ class DecCalculator extends Calculator {
     // Pierwzsą cyfrą wyniku będzie ostatnia przenoszona wartość.
     // Zwróć tak przygotowany wynik.
     let result = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-    let carry = 0;
     for (let i = numberX.length - 1; i >= 0; i--) {
-      if ((numberX + numberY) % 10 > 0) {
+      let carry = 0;
+      if ((numberX[i] + numberY[i]) < 10) {
         carry = Math.floor(numberX[i] + numberY[i] + result[i]);
 
-      }else {
-        carry = Math.floor((numberX[i] + numberY[i]));
+      } else {
+        carry = Math.floor((numberX[i] + numberY[i]) / 10);
       }
-
+console.log(carry);
       if (carry > 0) {
-        result[i] = carry;
+        result[i - 1] = carry;
+      } else {
+        result[i ] = numberX[i] + numberY[i];
       }
-      result[i] = (numberX[i] + numberY[i]);
-      console.log(result);
+      // console.log(result);
 
       // if (carryBit % 10) {
       //   result[i] = carryBit / 10;
@@ -62,6 +63,7 @@ class DecCalculator extends Calculator {
     // Przypomnienie - odwołanie do elementu zawierającego wszystkie elementy kalkulatora: this.$calculatorDOMElement
 
     let root = this.$calculatorDOMElement;
+    this.resultNumberArray.reverse();
     let $resultNumber = root.querySelectorAll(".result-bit > span");
     for (let i = $resultNumber.length - 1; i >= 0; i--) {
       // debugger;
